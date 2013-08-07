@@ -1,6 +1,7 @@
 <html>
     <head>
         <link type="text/css" rel="stylesheet" href="/static/css/main.css" />
+        <title>GAE Python RSS Reader</title>
     </head>
     
     <style type="text/css">
@@ -9,6 +10,19 @@
     </style>
     
     <body>
+    
+    <script>
+    function ShowItemContent(index) {
+        entryid = eval('ID'+index);
+        if (entryid.style.display == 'none') {
+            entryid.style.display = '';
+        }
+        else {
+            entryid.style.display = 'none';
+        }
+    }
+    </script>
+    
     <div id="rssFeed">
         {% for feed in myFeeds %}
             <dt><a href="{{ feed.link }}">{{feed.title}}</a></dt>
@@ -16,9 +30,13 @@
     </div>
     <div id="content">
         {% for item in items %}
-            <dt><a href="{{ item.link }}">{{item.title}}</a>{{ item.date }}</p><br>
-            {{item.description|safe}}
-            </dt>
+            <dl>
+                <dt onClick=javascript:ShowItemContent({{item.key.id}}) href="javascript:void(null)"><a href="javascript:;">{{item.title}}</a></dt>
+                <dd id="ID{{item.key.id}}" style="DISPLAY: none">
+                <h5><a href="{{item.link}}">{{item.title}}</a></h5>
+                <p>{{item.description|safe}}</p>
+            </dl>
+            
             <hr/>
         {% endfor %}
     </div>
